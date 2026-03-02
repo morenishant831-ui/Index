@@ -3,182 +3,300 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold & Silver Live Dashboard</title>
+<title>Gold & Silver Pro Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
 body{
-    background: linear-gradient(135deg,#1e1e2f,#2c2c54);
-    color:white;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+min-height:100vh;
 }
 
-.header{
-    padding:20px;
-    text-align:center;
-    font-size:28px;
-    font-weight:600;
-    letter-spacing:1px;
+header{
+text-align:center;
+padding:25px;
+font-size:28px;
+font-weight:600;
+letter-spacing:1px;
 }
 
-.dashboard{
-    width:95%;
-    max-width:1100px;
-    margin:20px auto;
+.container{
+width:95%;
+max-width:1200px;
+margin:auto;
 }
 
 .cards{
-    display:flex;
-    gap:20px;
-    justify-content:center;
-    flex-wrap:wrap;
-    margin-bottom:30px;
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+justify-content:center;
+margin-bottom:30px;
 }
 
 .card{
-    flex:1;
-    min-width:250px;
-    padding:25px;
-    border-radius:15px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
-    text-align:center;
-    transition:0.3s;
+flex:1;
+min-width:280px;
+padding:25px;
+border-radius:18px;
+background:rgba(255,255,255,0.07);
+backdrop-filter:blur(15px);
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+transition:0.3s;
 }
 
 .card:hover{
-    transform:translateY(-5px);
+transform:translateY(-6px);
 }
 
 .card h2{
-    font-weight:500;
-    margin-bottom:10px;
+margin-bottom:15px;
+font-weight:500;
 }
 
 .price{
-    font-size:28px;
-    font-weight:600;
+font-size:32px;
+font-weight:700;
+}
+
+.change{
+font-size:14px;
+margin-top:8px;
+}
+
+.up{
+color:#00ff9d;
+}
+
+.down{
+color:#ff4d4d;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    border-radius:12px;
-    overflow:hidden;
+width:100%;
+border-collapse:collapse;
+background:rgba(255,255,255,0.05);
+border-radius:12px;
+overflow:hidden;
+margin-bottom:30px;
 }
 
 th{
-    background:#f39c12;
-    color:black;
-    padding:12px;
+background:#f39c12;
+color:black;
+padding:12px;
 }
 
 td{
-    padding:12px;
-    text-align:center;
-    border-bottom:1px solid rgba(255,255,255,0.1);
+padding:12px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
 tr:hover{
-    background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.08);
+}
+
+.calculator{
+background:rgba(255,255,255,0.07);
+padding:25px;
+border-radius:18px;
+margin-bottom:30px;
+}
+
+.calculator h3{
+margin-bottom:15px;
+}
+
+input,select,button{
+padding:10px;
+margin:8px 0;
+border:none;
+border-radius:8px;
+width:100%;
+font-size:14px;
+}
+
+button{
+background:#f39c12;
+font-weight:600;
+cursor:pointer;
+}
+
+button:hover{
+background:#ffb84d;
 }
 
 .footer{
-    text-align:center;
-    padding:15px;
-    font-size:14px;
-    opacity:0.7;
+text-align:center;
+padding:20px;
+font-size:14px;
+opacity:0.8;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    💰 Gold & Silver Live Price Dashboard
+<header>
+💰 Gold & Silver Professional Dashboard
+</header>
+
+<div class="container">
+
+<div class="cards">
+
+<div class="card">
+<h2>Gold (24K)</h2>
+<div class="price" id="goldPrice">₹ 0</div>
+<div class="change" id="goldChange"></div>
 </div>
 
-<div class="dashboard">
+<div class="card">
+<h2>Silver (999)</h2>
+<div class="price" id="silverPrice">₹ 0</div>
+<div class="change" id="silverChange"></div>
+</div>
 
-    <div class="cards">
-        <div class="card">
-            <h2>Gold (24K)</h2>
-            <div class="price" id="goldPrice">Loading...</div>
-        </div>
+</div>
 
-        <div class="card">
-            <h2>Silver (999)</h2>
-            <div class="price" id="silverPrice">Loading...</div>
-        </div>
-    </div>
+<table id="ratesTable">
+<tr>
+<th>Metal</th>
+<th>Variety</th>
+<th>Rate (₹/10g)</th>
+</tr>
+</table>
 
-    <table id="ratesTable">
-        <tr>
-            <th>Metal</th>
-            <th>Variety</th>
-            <th>Rate (₹/10g)</th>
-        </tr>
-    </table>
+<div class="calculator">
+<h3>💡 Price Calculator</h3>
+
+<select id="metalSelect">
+<option value="gold">Gold 24K</option>
+<option value="silver">Silver 999</option>
+</select>
+
+<input type="number" id="grams" placeholder="Enter grams">
+
+<button onclick="calculate()">Calculate Price</button>
+
+<h3 id="result"></h3>
+</div>
 
 </div>
 
 <div class="footer">
-    Last Updated: <span id="updateTime"></span>
+Last Updated: <span id="updateTime"></span>
 </div>
 
 <script>
 
-async function getRates(){
+let previousGold = 6500;
+let previousSilver = 75;
 
-    try{
-        // Replace with real API later
-        let data = [
-            { metal:"Gold", variety:"22 Carat", rate:6000 },
-            { metal:"Gold", variety:"24 Carat", rate:6500 },
-            { metal:"Gold", variety:"999", rate:6600 },
-            { metal:"Silver", variety:"999", rate:75 }
-        ];
-
-        displayRates(data);
-
-    }catch(error){
-        console.log(error);
-    }
+function generateRandom(base){
+return base + (Math.random()*20 - 10).toFixed(2)*1;
 }
 
-function displayRates(list){
+function updatePrices(){
 
-    let table = document.getElementById("ratesTable");
+let gold = generateRandom(6500);
+let silver = generateRandom(75);
 
-    list.forEach(item=>{
-        let row = table.insertRow();
-        row.insertCell(0).innerText = item.metal;
-        row.insertCell(1).innerText = item.variety;
-        row.insertCell(2).innerText = "₹ " + item.rate;
-    });
+document.getElementById("goldPrice").innerText = "₹ " + gold.toFixed(2);
+document.getElementById("silverPrice").innerText = "₹ " + silver.toFixed(2);
 
-    document.getElementById("goldPrice").innerText = "₹ " + list[1].rate;
-    document.getElementById("silverPrice").innerText = "₹ " + list[3].rate;
+updateChange("gold", gold, previousGold);
+updateChange("silver", silver, previousSilver);
 
-    document.getElementById("updateTime").innerText = new Date().toLocaleString();
+previousGold = gold;
+previousSilver = silver;
+
+updateTable(gold, silver);
+
+document.getElementById("updateTime").innerText = new Date().toLocaleString();
 }
 
-getRates();
+function updateChange(type, current, previous){
 
-// Auto refresh every 60 seconds
-setInterval(()=>{
-    location.reload();
-},60000);
+let element = document.getElementById(type+"Change");
+let diff = (current - previous).toFixed(2);
+
+if(diff > 0){
+element.innerHTML = "▲ +" + diff;
+element.className = "change up";
+}
+else if(diff < 0){
+element.innerHTML = "▼ " + diff;
+element.className = "change down";
+}
+else{
+element.innerHTML = "No Change";
+element.className = "change";
+}
+}
+
+function updateTable(gold, silver){
+
+let table = document.getElementById("ratesTable");
+
+table.innerHTML = `
+<tr>
+<th>Metal</th>
+<th>Variety</th>
+<th>Rate (₹/10g)</th>
+</tr>
+<tr>
+<td>Gold</td>
+<td>22 Carat</td>
+<td>₹ ${(gold*0.92).toFixed(2)}</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>24 Carat</td>
+<td>₹ ${gold.toFixed(2)}</td>
+</tr>
+<tr>
+<td>Gold</td>
+<td>999</td>
+<td>₹ ${(gold*1.01).toFixed(2)}</td>
+</tr>
+<tr>
+<td>Silver</td>
+<td>999</td>
+<td>₹ ${silver.toFixed(2)}</td>
+</tr>
+`;
+}
+
+function calculate(){
+
+let metal = document.getElementById("metalSelect").value;
+let grams = document.getElementById("grams").value;
+
+if(!grams){
+alert("Enter grams");
+return;
+}
+
+let rate = (metal === "gold") ? previousGold : previousSilver;
+let price = (rate/10) * grams;
+
+document.getElementById("result").innerText = 
+"Total Price: ₹ " + price.toFixed(2);
+}
+
+updatePrices();
+setInterval(updatePrices, 10000);
 
 </script>
 
