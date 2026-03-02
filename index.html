@@ -1,39 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gold & Silver Rate Tracker</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: #f2f2f2;
-        }
-        h1 {
-            margin-top: 20px;
-        }
-        table {
-            margin: 30px auto;
-            border-collapse: collapse;
-            width: 80%;
-            background: white;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 12px;
-        }
-        th {
-            background: #333;
-            color: white;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gold & Silver Live Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#1e1e2f,#2c2c54);
+    color:white;
+}
+
+.header{
+    padding:20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+.dashboard{
+    width:95%;
+    max-width:1100px;
+    margin:20px auto;
+}
+
+.cards{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+.card{
+    flex:1;
+    min-width:250px;
+    padding:25px;
+    border-radius:15px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    text-align:center;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    font-weight:500;
+    margin-bottom:10px;
+}
+
+.price{
+    font-size:28px;
+    font-weight:600;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+th{
+    background:#f39c12;
+    color:black;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+tr:hover{
+    background:rgba(255,255,255,0.08);
+}
+
+.footer{
+    text-align:center;
+    padding:15px;
+    font-size:14px;
+    opacity:0.7;
+}
+</style>
 </head>
+
 <body>
 
-    <h1>Live Gold & Silver Rates</h1>
+<div class="header">
+    💰 Gold & Silver Live Price Dashboard
+</div>
+
+<div class="dashboard">
+
+    <div class="cards">
+        <div class="card">
+            <h2>Gold (24K)</h2>
+            <div class="price" id="goldPrice">Loading...</div>
+        </div>
+
+        <div class="card">
+            <h2>Silver (999)</h2>
+            <div class="price" id="silverPrice">Loading...</div>
+        </div>
+    </div>
 
     <table id="ratesTable">
         <tr>
@@ -43,42 +130,57 @@
         </tr>
     </table>
 
-    <script>
-        async function getRates() {
+</div>
 
-            // try a real API (replace below link with real one)
-            let url = "https://api.example.com/live-rates"; // 🔁 Replace with real API
+<div class="footer">
+    Last Updated: <span id="updateTime"></span>
+</div>
 
-            try {
-                let response = await fetch(url);
-                let data = await response.json();
+<script>
 
-                displayRates(data);
-            }
-            catch(error) {
-                console.error("API Error, using sample rates only.", error);
-                // sample dummy data
-                let data = [
-                    { metal: "Gold", variety: "22 Carat", rate: 6000 },
-                    { metal: "Gold", variety: "24 Carat", rate: 6500 },
-                    { metal: "Gold", variety: "999", rate: 6600 },
-                    { metal: "Silver", variety: "999", rate: 75 }
-                ];
-                displayRates(data);
-            }
-        }
+async function getRates(){
 
-        function displayRates(list) {
-            let table = document.getElementById("ratesTable");
-            list.forEach(item => {
-                let row = table.insertRow();
-                row.insertCell(0).innerText = item.metal;
-                row.insertCell(1).innerText = item.variety;
-                row.insertCell(2).innerText = item.rate;
-            });
-        }
+    try{
+        // Replace with real API later
+        let data = [
+            { metal:"Gold", variety:"22 Carat", rate:6000 },
+            { metal:"Gold", variety:"24 Carat", rate:6500 },
+            { metal:"Gold", variety:"999", rate:6600 },
+            { metal:"Silver", variety:"999", rate:75 }
+        ];
 
-        getRates();
-    </script>
+        displayRates(data);
+
+    }catch(error){
+        console.log(error);
+    }
+}
+
+function displayRates(list){
+
+    let table = document.getElementById("ratesTable");
+
+    list.forEach(item=>{
+        let row = table.insertRow();
+        row.insertCell(0).innerText = item.metal;
+        row.insertCell(1).innerText = item.variety;
+        row.insertCell(2).innerText = "₹ " + item.rate;
+    });
+
+    document.getElementById("goldPrice").innerText = "₹ " + list[1].rate;
+    document.getElementById("silverPrice").innerText = "₹ " + list[3].rate;
+
+    document.getElementById("updateTime").innerText = new Date().toLocaleString();
+}
+
+getRates();
+
+// Auto refresh every 60 seconds
+setInterval(()=>{
+    location.reload();
+},60000);
+
+</script>
+
 </body>
 </html>
