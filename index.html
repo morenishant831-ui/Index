@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold & Silver Rate Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f2f2f2;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        table {
+            margin: 30px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+        }
+        th {
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Live Gold & Silver Rates</h1>
+
+    <table id="ratesTable">
+        <tr>
+            <th>Metal</th>
+            <th>Variety</th>
+            <th>Rate (₹/10g)</th>
+        </tr>
+    </table>
+
+    <script>
+        async function getRates() {
+
+            // try a real API (replace below link with real one)
+            let url = "https://api.example.com/live-rates"; // 🔁 Replace with real API
+
+            try {
+                let response = await fetch(url);
+                let data = await response.json();
+
+                displayRates(data);
+            }
+            catch(error) {
+                console.error("API Error, using sample rates only.", error);
+                // sample dummy data
+                let data = [
+                    { metal: "Gold", variety: "22 Carat", rate: 6000 },
+                    { metal: "Gold", variety: "24 Carat", rate: 6500 },
+                    { metal: "Gold", variety: "999", rate: 6600 },
+                    { metal: "Silver", variety: "999", rate: 75 }
+                ];
+                displayRates(data);
+            }
+        }
+
+        function displayRates(list) {
+            let table = document.getElementById("ratesTable");
+            list.forEach(item => {
+                let row = table.insertRow();
+                row.insertCell(0).innerText = item.metal;
+                row.insertCell(1).innerText = item.variety;
+                row.insertCell(2).innerText = item.rate;
+            });
+        }
+
+        getRates();
+    </script>
+</body>
+</html>
