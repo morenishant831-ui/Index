@@ -3,193 +3,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold & Silver Market Portal</title>
+<title>Gold & Silver Live Market Dashboard</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:#0f2027;color:white;}
-nav{
-display:flex;justify-content:space-between;align-items:center;
-padding:20px;background:#111;
-position:sticky;top:0;z-index:1000;
-}
-nav h1{font-size:20px;}
-nav ul{list-style:none;display:flex;gap:20px;}
-nav ul li{cursor:pointer;}
-nav ul li:hover{color:#f39c12;}
-
-section{display:none;padding:60px 10%;min-height:100vh;}
-.active{display:block;}
-
-.hero{
-display:flex;flex-direction:column;align-items:center;justify-content:center;
-text-align:center;
-}
-.hero h2{font-size:42px;margin-bottom:20px;}
-.hero button{
-padding:12px 25px;background:#f39c12;border:none;
-border-radius:8px;font-weight:600;cursor:pointer;
-}
-
+body{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;min-height:100vh;}
+header{text-align:center;padding:25px;font-size:28px;font-weight:600;}
+.container{width:95%;max-width:1200px;margin:auto;}
 .cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
-.card{
-flex:1;min-width:250px;padding:25px;border-radius:18px;
-background:rgba(255,255,255,0.05);
-}
-.price{font-size:28px;font-weight:700;}
-
-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,0.05);}
-th,td{padding:12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);}
-th{background:#f39c12;color:black;}
-
-#chart{height:400px;margin-top:30px;}
-
-input,select,button{
-padding:10px;margin:8px 0;border:none;border-radius:8px;width:100%;
-}
+.card{flex:1;min-width:280px;padding:25px;border-radius:18px;background:rgba(255,255,255,0.07);
+backdrop-filter:blur(15px);box-shadow:0 10px 25px rgba(0,0,0,0.4);transition:0.3s;}
+.card:hover{transform:translateY(-6px);}
+.price{font-size:32px;font-weight:700;}
+.change{font-size:14px;margin-top:8px;}
+.up{color:#00ff9d;}
+.down{color:#ff4d4d;}
+table{width:100%;border-collapse:collapse;background:rgba(255,255,255,0.05);
+border-radius:12px;overflow:hidden;margin-bottom:30px;}
+th{background:#f39c12;color:black;padding:12px;}
+td{padding:12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);}
+.calculator{background:rgba(255,255,255,0.07);padding:25px;border-radius:18px;margin-bottom:30px;}
+input,select,button{padding:10px;margin:8px 0;border:none;border-radius:8px;width:100%;}
 button{background:#f39c12;font-weight:600;cursor:pointer;}
-
-.footer{text-align:center;padding:20px;background:#111;}
+button:hover{background:#ffb84d;}
+#chart{height:400px;margin-bottom:30px;}
+.footer{text-align:center;padding:20px;font-size:14px;opacity:0.8;}
 </style>
 </head>
 
 <body>
 
-<nav>
-<h1>💰 GoldMarket</h1>
-<ul>
-<li onclick="showPage('home')">Home</li>
-<li onclick="showPage('prices')">Prices</li>
-<li onclick="showPage('chartPage')">Market Chart</li>
-<li onclick="showPage('calculator')">Calculator</li>
-<li onclick="showPage('about')">About</li>
-</ul>
-</nav>
+<header>💰 Gold & Silver Live Market Dashboard</header>
 
-<!-- HOME -->
-<section id="home" class="active hero">
-<h2>Live Gold & Silver Market Tracking</h2>
-<p>Track real-time gold and silver prices with analytics.</p>
-<button onclick="showPage('prices')">Check Live Prices</button>
-</section>
+<div class="container">
 
-<!-- PRICES -->
-<section id="prices">
-<h2>Live Prices</h2>
 <div class="cards">
 <div class="card">
-<h3>Gold (24K)</h3>
+<h2>Gold (24K)</h2>
 <div class="price" id="goldPrice">Loading...</div>
+<div class="change" id="goldChange"></div>
 </div>
+
 <div class="card">
-<h3>Silver (999)</h3>
+<h2>Silver (999)</h2>
 <div class="price" id="silverPrice">Loading...</div>
+<div class="change" id="silverChange"></div>
 </div>
 </div>
+
+<div id="chart"></div>
 
 <table id="ratesTable"></table>
-</section>
 
-<!-- CHART -->
-<section id="chartPage">
-<h2>Market Trend</h2>
-<div id="chart"></div>
-</section>
-
-<!-- CALCULATOR -->
-<section id="calculator">
-<h2>Price Calculator</h2>
+<div class="calculator">
+<h3>💡 Price Calculator</h3>
 <select id="metalSelect">
 <option value="gold">Gold 24K</option>
 <option value="silver">Silver 999</option>
 </select>
 <input type="number" id="grams" placeholder="Enter grams">
-<button onclick="calculate()">Calculate</button>
+<button onclick="calculate()">Calculate Price</button>
 <h3 id="result"></h3>
-</section>
+</div>
 
-<!-- ABOUT -->
-<section id="about">
-<h2>About This Platform</h2>
-<p>This portal provides real-time gold and silver pricing with live market visualization and calculation tools.</p>
-<p>Designed as a fintech-ready scalable system.</p>
-</section>
+</div>
 
 <div class="footer">
-© 2026 GoldMarket | All Rights Reserved
+Last Updated: <span id="updateTime"></span>
 </div>
 
 <script>
 
+// 🔑 Replace with your real API key
 const API_KEY = "YOUR_API_KEY";
 
-let goldSeries, silverSeries;
+let previousGold = 0;
+let previousSilver = 0;
+
+const chart = LightweightCharts.createChart(document.getElementById('chart'), {
+layout:{background:{color:'#0f2027'},textColor:'#ffffff'},
+grid:{vertLines:{color:'#1f3a4a'},horzLines:{color:'#1f3a4a'}},
+width:window.innerWidth*0.9,
+height:400
+});
+
+const goldSeries = chart.addLineSeries({color:'#f39c12'});
+const silverSeries = chart.addLineSeries({color:'#00c3ff'});
+
 let goldHistory = [];
 let silverHistory = [];
-
-function showPage(page){
-document.querySelectorAll("section").forEach(sec=>sec.classList.remove("active"));
-document.getElementById(page).classList.add("active");
-}
 
 async function fetchLivePrices(){
 try{
 const res = await fetch(`https://metals-api.com/api/latest?access_key=${API_KEY}&base=INR&symbols=XAU,XAG`);
 const data = await res.json();
 
-if(!data.success) throw "API";
+if(!data.success) throw "API limit";
 
-const gold = (1/data.rates.XAU)*10;
-const silver = (1/data.rates.XAG)*10;
+const gold = (1 / data.rates.XAU) * 10;   // convert per 10g
+const silver = (1 / data.rates.XAG) * 10;
 
-updateDashboard(gold,silver);
+updateDashboard(gold, silver);
 
-}catch{
-updateDashboard(6500+Math.random()*20,75+Math.random());
+}catch(err){
+console.log("Using fallback simulation");
+updateDashboard(6500 + Math.random()*20, 75 + Math.random());
 }
 }
 
-function updateDashboard(gold,silver){
+function updateDashboard(gold, silver){
 
-document.getElementById("goldPrice").innerText="₹ "+gold.toFixed(2);
-document.getElementById("silverPrice").innerText="₹ "+silver.toFixed(2);
+document.getElementById("goldPrice").innerText = "₹ " + gold.toFixed(2);
+document.getElementById("silverPrice").innerText = "₹ " + silver.toFixed(2);
 
-document.getElementById("ratesTable").innerHTML=`
-<tr><th>Metal</th><th>Type</th><th>Rate (₹/10g)</th></tr>
-<tr><td>Gold</td><td>22K</td><td>₹ ${(gold*0.92).toFixed(2)}</td></tr>
-<tr><td>Gold</td><td>24K</td><td>₹ ${gold.toFixed(2)}</td></tr>
-<tr><td>Silver</td><td>999</td><td>₹ ${silver.toFixed(2)}</td></tr>
-`;
+updateChange("gold", gold, previousGold);
+updateChange("silver", silver, previousSilver);
+
+previousGold = gold;
+previousSilver = silver;
+
+updateTable(gold, silver);
 
 const time = Math.floor(Date.now()/1000);
-goldHistory.push({time,value:gold});
-silverHistory.push({time,value:silver});
 
-if(goldSeries){
+goldHistory.push({time, value:gold});
+silverHistory.push({time, value:silver});
+
 goldSeries.setData(goldHistory);
 silverSeries.setData(silverHistory);
+
+document.getElementById("updateTime").innerText = new Date().toLocaleString();
 }
+
+function updateChange(type, current, previous){
+let element = document.getElementById(type+"Change");
+let diff = (current - previous).toFixed(2);
+if(diff > 0){
+element.innerHTML = "▲ +" + diff;
+element.className = "change up";
+}else if(diff < 0){
+element.innerHTML = "▼ " + diff;
+element.className = "change down";
+}else{
+element.innerHTML = "No Change";
+element.className = "change";
+}
+}
+
+function updateTable(gold, silver){
+document.getElementById("ratesTable").innerHTML = `
+<tr><th>Metal</th><th>Variety</th><th>Rate (₹/10g)</th></tr>
+<tr><td>Gold</td><td>22 Carat</td><td>₹ ${(gold*0.92).toFixed(2)}</td></tr>
+<tr><td>Gold</td><td>24 Carat</td><td>₹ ${gold.toFixed(2)}</td></tr>
+<tr><td>Gold</td><td>999</td><td>₹ ${(gold*1.01).toFixed(2)}</td></tr>
+<tr><td>Silver</td><td>999</td><td>₹ ${silver.toFixed(2)}</td></tr>
+`;
 }
 
 function calculate(){
-let metal=document.getElementById("metalSelect").value;
-let grams=document.getElementById("grams").value;
+let metal = document.getElementById("metalSelect").value;
+let grams = document.getElementById("grams").value;
 if(!grams) return alert("Enter grams");
-let rate=(metal==="gold")?goldHistory.slice(-1)[0].value:silverHistory.slice(-1)[0].value;
-let price=(rate/10)*grams;
-document.getElementById("result").innerText="Total Price: ₹ "+price.toFixed(2);
+let rate = (metal==="gold") ? previousGold : previousSilver;
+let price = (rate/10)*grams;
+document.getElementById("result").innerText = "Total Price: ₹ "+price.toFixed(2);
 }
-
-const chart=LightweightCharts.createChart(document.getElementById("chart"),{
-layout:{background:{color:'#0f2027'},textColor:'#ffffff'},
-width:window.innerWidth*0.8,height:400
-});
-
-goldSeries=chart.addLineSeries({color:'#f39c12'});
-silverSeries=chart.addLineSeries({color:'#00c3ff'});
 
 fetchLivePrices();
 setInterval(fetchLivePrices,60000);
