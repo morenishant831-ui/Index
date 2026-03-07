@@ -20,17 +20,14 @@ font-family:'Poppins',sans-serif;
 body{
 background:linear-gradient(135deg,#1e3c72,#2a5298);
 color:white;
-min-height:100vh;
 }
-
-/* NAVBAR */
 
 nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 10%;
-background:rgba(0,0,0,0.3);
+background:rgba(0,0,0,0.4);
 }
 
 nav h1{
@@ -39,54 +36,48 @@ font-size:22px;
 
 nav ul{
 display:flex;
-list-style:none;
 gap:20px;
+list-style:none;
 }
 
-nav ul li{
+nav li{
 cursor:pointer;
-font-weight:500;
 }
-
-nav ul li:hover{
-color:#ffd166;
-}
-
-/* HERO */
 
 .hero{
 text-align:center;
-padding:60px 20px;
+padding:50px 20px;
 }
 
-.hero h2{
-font-size:40px;
-margin-bottom:15px;
+.search{
+text-align:center;
+margin-bottom:30px;
 }
 
-.hero p{
-opacity:0.9;
+.search input{
+padding:12px;
+width:60%;
+border-radius:8px;
+border:none;
+font-size:16px;
 }
-
-/* TOPIC GRID */
 
 .container{
-padding:40px 10%;
+padding:20px 10%;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 }
 
 .card{
 background:rgba(255,255,255,0.08);
-padding:25px;
-border-radius:15px;
+padding:20px;
+border-radius:12px;
 cursor:pointer;
 transition:0.3s;
-backdrop-filter:blur(10px);
 }
 
 .card:hover{
@@ -94,38 +85,35 @@ transform:translateY(-5px);
 background:rgba(255,255,255,0.15);
 }
 
-.card h3{
-margin-bottom:10px;
+.section{
+margin-top:60px;
 }
 
-/* MODAL */
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-align-items:center;
-justify-content:center;
-}
-
-.modal-content{
-background:white;
-color:black;
-padding:30px;
-width:80%;
-max-width:600px;
+.quiz-box{
+background:rgba(255,255,255,0.08);
+padding:20px;
 border-radius:10px;
 }
 
-.close{
-float:right;
+button{
+padding:10px 15px;
+border:none;
+border-radius:6px;
+background:#ffd166;
 cursor:pointer;
-font-size:20px;
-font-weight:bold;
+margin-top:10px;
+}
+
+.tools{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.tool{
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:10px;
 }
 
 footer{
@@ -133,6 +121,12 @@ text-align:center;
 padding:20px;
 margin-top:40px;
 opacity:0.8;
+}
+
+canvas{
+background:white;
+border-radius:10px;
+margin-top:20px;
 }
 
 </style>
@@ -143,75 +137,103 @@ opacity:0.8;
 <nav>
 <h1>⚡ VLSI Learning Hub</h1>
 <ul>
-<li>Home</li>
 <li>Topics</li>
-<li>Resources</li>
-<li>About</li>
+<li>EDA Tools</li>
+<li>Quiz</li>
+<li>Notes</li>
 </ul>
 </nav>
 
 <div class="hero">
-<h2>VLSI Design Topics</h2>
-<p>Learn the fundamental and advanced concepts of Very Large Scale Integration</p>
+<h2>Complete VLSI Learning Platform</h2>
+<p>Topics • Tools • Practice • Notes</p>
+</div>
+
+<div class="search">
+<input type="text" id="searchInput" placeholder="Search VLSI topics..." onkeyup="searchTopics()">
 </div>
 
 <div class="container">
 
-<div class="grid">
+<h2>VLSI Topics</h2>
 
-<div class="card" onclick="openTopic('CMOS Technology','CMOS is the fundamental technology used in VLSI circuits for designing low power digital circuits.')">
-<h3>CMOS Technology</h3>
-<p>Basic transistor technology used in modern ICs</p>
+<div class="grid" id="topicsGrid"></div>
+
+
+<div class="section">
+
+<h2>Interactive CMOS Diagram</h2>
+
+<p>Simple visualization of CMOS inverter structure</p>
+
+<canvas id="cmosCanvas" width="400" height="250"></canvas>
+
 </div>
 
-<div class="card" onclick="openTopic('Logic Gates','Logic gates form the building blocks of digital circuits including AND, OR, NOT, NAND, NOR.')">
-<h3>Logic Gates</h3>
-<p>Fundamental digital logic building blocks</p>
+
+<div class="section">
+
+<h2>EDA Tools</h2>
+
+<div class="tools">
+
+<div class="tool">
+<h3>Cadence</h3>
+<p>Industry standard analog and digital IC design platform.</p>
 </div>
 
-<div class="card" onclick="openTopic('Combinational Circuits','Circuits where output depends only on present inputs.')">
-<h3>Combinational Circuits</h3>
-<p>Adders, Multiplexers, Decoders</p>
+<div class="tool">
+<h3>Synopsys</h3>
+<p>Used for synthesis, verification and ASIC design.</p>
 </div>
 
-<div class="card" onclick="openTopic('Sequential Circuits','Circuits where output depends on present input and previous state.')">
-<h3>Sequential Circuits</h3>
-<p>Flip-flops, Registers, Counters</p>
+<div class="tool">
+<h3>Verilog</h3>
+<p>Hardware description language used for digital design.</p>
 </div>
 
-<div class="card" onclick="openTopic('VLSI Fabrication','Process of manufacturing ICs using photolithography and semiconductor processes.')">
-<h3>VLSI Fabrication</h3>
-<p>Manufacturing of integrated circuits</p>
-</div>
-
-<div class="card" onclick="openTopic('Low Power VLSI','Techniques to reduce power consumption in IC design.')">
-<h3>Low Power VLSI</h3>
-<p>Power optimization techniques</p>
-</div>
-
-<div class="card" onclick="openTopic('ASIC Design','Application Specific Integrated Circuits designed for specific tasks.')">
-<h3>ASIC Design</h3>
-<p>Custom chip design</p>
-</div>
-
-<div class="card" onclick="openTopic('FPGA','Field Programmable Gate Arrays allow reconfigurable hardware design.')">
+<div class="tool">
 <h3>FPGA</h3>
-<p>Programmable digital hardware</p>
+<p>Programmable hardware used for prototyping.</p>
 </div>
 
 </div>
 
 </div>
 
-<div class="modal" id="modal">
 
-<div class="modal-content">
+<div class="section">
 
-<span class="close" onclick="closeTopic()">✖</span>
+<h2>VLSI Quiz</h2>
 
-<h2 id="topicTitle"></h2>
+<div class="quiz-box">
 
-<p id="topicContent"></p>
+<p id="question">What does CMOS stand for?</p>
+
+<button onclick="checkAnswer('a')">Complementary Metal Oxide Semiconductor</button>
+
+<button onclick="checkAnswer('b')">Central Micro Operating System</button>
+
+<p id="quizResult"></p>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Download Notes</h2>
+
+<ul>
+
+<li><a href="https://www.vlsiuniverse.com/" target="_blank">VLSI Notes Resource</a></li>
+
+<li><a href="https://nptel.ac.in/" target="_blank">NPTEL VLSI Courses</a></li>
+
+<li><a href="https://ocw.mit.edu/" target="_blank">MIT VLSI Materials</a></li>
+
+</ul>
 
 </div>
 
@@ -221,22 +243,74 @@ opacity:0.8;
 © 2026 VLSI Learning Portal
 </footer>
 
+
 <script>
 
-function openTopic(title,content){
+const topics=[
 
-document.getElementById("topicTitle").innerText=title;
-document.getElementById("topicContent").innerText=content;
+"CMOS Technology","MOSFET Operation","Logic Gates","Combinational Circuits","Sequential Circuits",
+"Flip Flops","Registers","Counters","Adders","Multiplexers",
+"Decoders","Encoders","PLA","PAL","ROM",
+"ASIC Design","FPGA Design","VLSI Fabrication","Photolithography","Oxidation",
+"Doping","Etching","CMOS Inverter","Transmission Gates","Dynamic Logic",
+"Static Logic","Low Power VLSI","Clock Gating","Power Gating","Pipeline Design",
+"Timing Analysis","Setup Time","Hold Time","Noise Margin","Latch Design",
+"SRAM","DRAM","Memory Hierarchy","EDA Tools","Cadence Virtuoso",
+"Synopsys Design Compiler","Verilog HDL","VHDL","SystemVerilog",
+"Place and Route","Floorplanning","Routing","Physical Design",
+"Design Rule Check","Layout Versus Schematic","Chip Packaging","Testing",
+"Fault Simulation","ATPG","Scan Chains","Yield Analysis","SoC Design"
 
-document.getElementById("modal").style.display="flex";
+];
+
+const grid=document.getElementById("topicsGrid");
+
+topics.forEach(t=>{
+let div=document.createElement("div");
+div.className="card";
+div.innerHTML="<h3>"+t+"</h3>";
+grid.appendChild(div);
+});
+
+function searchTopics(){
+
+let input=document.getElementById("searchInput").value.toLowerCase();
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+card.style.display=card.innerText.toLowerCase().includes(input)?"block":"none";
+});
 
 }
 
-function closeTopic(){
+function checkAnswer(ans){
 
-document.getElementById("modal").style.display="none";
+let result=document.getElementById("quizResult");
+
+if(ans=="a"){
+result.innerText="Correct!";
+}else{
+result.innerText="Incorrect";
+}
 
 }
+
+const canvas=document.getElementById("cmosCanvas");
+const ctx=canvas.getContext("2d");
+
+ctx.fillStyle="black";
+ctx.fillRect(180,20,40,80);
+
+ctx.fillStyle="black";
+ctx.fillRect(180,150,40,80);
+
+ctx.beginPath();
+ctx.moveTo(200,100);
+ctx.lineTo(200,150);
+ctx.stroke();
+
+ctx.fillText("PMOS",160,15);
+ctx.fillText("NMOS",160,245);
 
 </script>
 
