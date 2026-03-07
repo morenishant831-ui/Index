@@ -42,10 +42,6 @@ padding:20px 10%;
 background:var(--card);
 }
 
-nav h1{
-margin:0;
-}
-
 nav ul{
 display:flex;
 gap:20px;
@@ -75,6 +71,18 @@ padding:80px 20px;
 font-size:40px;
 }
 
+.search{
+text-align:center;
+margin-bottom:20px;
+}
+
+.search input{
+padding:10px;
+width:50%;
+border-radius:8px;
+border:none;
+}
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
@@ -87,6 +95,7 @@ background:var(--card);
 padding:25px;
 border-radius:10px;
 transition:0.3s;
+cursor:pointer;
 }
 
 .card:hover{
@@ -114,6 +123,17 @@ opacity:0.8;
 canvas{
 background:white;
 border-radius:10px;
+}
+
+/* topic page */
+
+.topicPage{
+display:none;
+padding:40px 10%;
+}
+
+.backBtn{
+margin-bottom:20px;
 }
 
 </style>
@@ -146,24 +166,53 @@ border-radius:10px;
 
 </div>
 
+<div class="search">
+<input type="text" id="search" placeholder="Search VLSI topics..." onkeyup="searchTopics()">
+</div>
+
 <div class="section" id="topics">
 
 <h2>Important VLSI Topics</h2>
 
-<div class="grid">
+<div class="grid" id="topicGrid">
 
-<div class="card">CMOS Technology</div>
-<div class="card">MOSFET Operation</div>
-<div class="card">Logic Gates</div>
-<div class="card">Combinational Circuits</div>
-<div class="card">Sequential Circuits</div>
-<div class="card">Flip Flops</div>
-<div class="card">ASIC Design</div>
-<div class="card">FPGA Design</div>
-<div class="card">Low Power VLSI</div>
-<div class="card">Timing Analysis</div>
+<div class="card" onclick="openTopic('CMOS Technology','CMOS technology uses complementary PMOS and NMOS transistors for low power digital circuits.')">CMOS Technology</div>
+
+<div class="card" onclick="openTopic('MOSFET Operation','MOSFET is the fundamental transistor used in modern integrated circuits.')">MOSFET Operation</div>
+
+<div class="card" onclick="openTopic('Logic Gates','Logic gates such as AND, OR, NOT are the building blocks of digital circuits.')">Logic Gates</div>
+
+<div class="card" onclick="openTopic('Combinational Circuits','Output depends only on present inputs.')">Combinational Circuits</div>
+
+<div class="card" onclick="openTopic('Sequential Circuits','Output depends on input and previous state.')">Sequential Circuits</div>
+
+<div class="card" onclick="openTopic('Flip Flops','Basic memory element used in digital electronics.')">Flip Flops</div>
+
+<div class="card" onclick="openTopic('ASIC Design','Application specific integrated circuits are custom designed chips.')">ASIC Design</div>
+
+<div class="card" onclick="openTopic('FPGA Design','FPGAs are programmable hardware devices.')">FPGA Design</div>
+
+<div class="card" onclick="openTopic('Low Power VLSI','Techniques like clock gating reduce power consumption.')">Low Power VLSI</div>
+
+<div class="card" onclick="openTopic('Timing Analysis','Ensures signals meet setup and hold timing requirements.')">Timing Analysis</div>
+
+<div class="card" onclick="openTopic('DRC','Design Rule Check verifies layout rules.')">DRC</div>
+
+<div class="card" onclick="openTopic('LVS','Layout vs Schematic verifies circuit correctness.')">LVS</div>
 
 </div>
+
+</div>
+
+<!-- topic viewer -->
+
+<div class="topicPage" id="topicPage">
+
+<button class="backBtn" onclick="closeTopic()">⬅ Back</button>
+
+<h2 id="topicTitle"></h2>
+
+<p id="topicText"></p>
 
 </div>
 
@@ -244,6 +293,36 @@ if(ans)
 r.innerText="Correct Answer"
 else
 r.innerText="Wrong Answer"
+
+}
+
+function openTopic(title,text){
+
+document.getElementById("topics").style.display="none"
+document.getElementById("topicPage").style.display="block"
+
+document.getElementById("topicTitle").innerText=title
+document.getElementById("topicText").innerText=text
+
+window.scrollTo(0,0)
+
+}
+
+function closeTopic(){
+
+document.getElementById("topics").style.display="block"
+document.getElementById("topicPage").style.display="none"
+
+}
+
+function searchTopics(){
+
+let input=document.getElementById("search").value.toLowerCase()
+let cards=document.querySelectorAll(".card")
+
+cards.forEach(card=>{
+card.style.display=card.innerText.toLowerCase().includes(input)?"block":"none"
+})
 
 }
 
