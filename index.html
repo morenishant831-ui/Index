@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VLSI Learning Portal</title>
+<title>VLSI Learning Platform</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+:root{
+--bg:#0f2027;
+--card:#203a43;
+--text:white;
+--accent:#f39c12;
+}
+
+.light{
+--bg:#f4f4f4;
+--card:white;
+--text:#222;
+--accent:#0077ff;
 }
 
 body{
-background:linear-gradient(135deg,#1e3c72,#2a5298);
-color:white;
+margin:0;
+font-family:Poppins;
+background:var(--bg);
+color:var(--text);
+transition:0.3s;
 }
 
 nav{
@@ -27,11 +39,11 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 10%;
-background:rgba(0,0,0,0.4);
+background:var(--card);
 }
 
 nav h1{
-font-size:22px;
+margin:0;
 }
 
 nav ul{
@@ -40,277 +52,216 @@ gap:20px;
 list-style:none;
 }
 
-nav li{
+nav a{
+color:var(--text);
+text-decoration:none;
+}
+
+button{
+padding:8px 14px;
+border:none;
+background:var(--accent);
+color:white;
+border-radius:6px;
 cursor:pointer;
 }
 
 .hero{
 text-align:center;
-padding:50px 20px;
+padding:80px 20px;
 }
 
-.search{
-text-align:center;
-margin-bottom:30px;
-}
-
-.search input{
-padding:12px;
-width:60%;
-border-radius:8px;
-border:none;
-font-size:16px;
-}
-
-.container{
-padding:20px 10%;
+.hero h2{
+font-size:40px;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:20px;
+padding:40px 10%;
 }
 
 .card{
-background:rgba(255,255,255,0.08);
-padding:20px;
-border-radius:12px;
-cursor:pointer;
+background:var(--card);
+padding:25px;
+border-radius:10px;
 transition:0.3s;
 }
 
 .card:hover{
 transform:translateY(-5px);
-background:rgba(255,255,255,0.15);
 }
 
 .section{
-margin-top:60px;
+padding:40px 10%;
 }
 
-.quiz-box{
-background:rgba(255,255,255,0.08);
+.code{
+background:black;
+color:#00ff88;
 padding:20px;
-border-radius:10px;
-}
-
-button{
-padding:10px 15px;
-border:none;
-border-radius:6px;
-background:#ffd166;
-cursor:pointer;
-margin-top:10px;
-}
-
-.tools{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
-}
-
-.tool{
-background:rgba(255,255,255,0.1);
-padding:20px;
-border-radius:10px;
+border-radius:8px;
+overflow:auto;
 }
 
 footer{
 text-align:center;
 padding:20px;
-margin-top:40px;
 opacity:0.8;
 }
 
 canvas{
 background:white;
 border-radius:10px;
-margin-top:20px;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <nav>
-<h1>⚡ VLSI Learning Hub</h1>
+
+<h1>⚡ VLSI Hub</h1>
+
 <ul>
-<li>Topics</li>
-<li>EDA Tools</li>
-<li>Quiz</li>
-<li>Notes</li>
+<li><a href="#">Home</a></li>
+<li><a href="#topics">Topics</a></li>
+<li><a href="#quiz">Quiz</a></li>
+<li><a href="#verilog">Verilog</a></li>
+<li><a href="#interview">Interview</a></li>
 </ul>
+
+<button onclick="toggleTheme()">Theme</button>
+
 </nav>
 
 <div class="hero">
+
 <h2>Complete VLSI Learning Platform</h2>
-<p>Topics • Tools • Practice • Notes</p>
+
+<p>Topics • Quiz • Verilog • Interview Preparation</p>
+
 </div>
 
-<div class="search">
-<input type="text" id="searchInput" placeholder="Search VLSI topics..." onkeyup="searchTopics()">
+<div class="section" id="topics">
+
+<h2>Important VLSI Topics</h2>
+
+<div class="grid">
+
+<div class="card">CMOS Technology</div>
+<div class="card">MOSFET Operation</div>
+<div class="card">Logic Gates</div>
+<div class="card">Combinational Circuits</div>
+<div class="card">Sequential Circuits</div>
+<div class="card">Flip Flops</div>
+<div class="card">ASIC Design</div>
+<div class="card">FPGA Design</div>
+<div class="card">Low Power VLSI</div>
+<div class="card">Timing Analysis</div>
+
 </div>
 
-<div class="container">
-
-<h2>VLSI Topics</h2>
-
-<div class="grid" id="topicsGrid"></div>
-
+</div>
 
 <div class="section">
 
-<h2>Interactive CMOS Diagram</h2>
+<h2>Interactive CMOS Inverter</h2>
 
-<p>Simple visualization of CMOS inverter structure</p>
-
-<canvas id="cmosCanvas" width="400" height="250"></canvas>
+<canvas id="cmos" width="400" height="250"></canvas>
 
 </div>
 
+<div class="section" id="quiz">
 
-<div class="section">
+<h2>Quick Quiz</h2>
 
-<h2>EDA Tools</h2>
+<p id="q">What does CMOS stand for?</p>
 
-<div class="tools">
+<button onclick="check(1)">Complementary Metal Oxide Semiconductor</button>
+<button onclick="check(0)">Central Micro Operating System</button>
 
-<div class="tool">
-<h3>Cadence</h3>
-<p>Industry standard analog and digital IC design platform.</p>
-</div>
-
-<div class="tool">
-<h3>Synopsys</h3>
-<p>Used for synthesis, verification and ASIC design.</p>
-</div>
-
-<div class="tool">
-<h3>Verilog</h3>
-<p>Hardware description language used for digital design.</p>
-</div>
-
-<div class="tool">
-<h3>FPGA</h3>
-<p>Programmable hardware used for prototyping.</p>
-</div>
+<p id="result"></p>
 
 </div>
 
-</div>
+<div class="section" id="verilog">
 
+<h2>Verilog Example</h2>
 
-<div class="section">
+<div class="code">
 
-<h2>VLSI Quiz</h2>
+module and_gate(
+input a,
+input b,
+output y
+);
 
-<div class="quiz-box">
+assign y = a & b;
 
-<p id="question">What does CMOS stand for?</p>
-
-<button onclick="checkAnswer('a')">Complementary Metal Oxide Semiconductor</button>
-
-<button onclick="checkAnswer('b')">Central Micro Operating System</button>
-
-<p id="quizResult"></p>
+endmodule
 
 </div>
 
 </div>
 
+<div class="section" id="interview">
 
-<div class="section">
-
-<h2>Download Notes</h2>
+<h2>VLSI Interview Preparation</h2>
 
 <ul>
 
-<li><a href="https://www.vlsiuniverse.com/" target="_blank">VLSI Notes Resource</a></li>
-
-<li><a href="https://nptel.ac.in/" target="_blank">NPTEL VLSI Courses</a></li>
-
-<li><a href="https://ocw.mit.edu/" target="_blank">MIT VLSI Materials</a></li>
+<li>Explain CMOS inverter working</li>
+<li>Difference between latch and flip-flop</li>
+<li>What is setup time and hold time?</li>
+<li>Explain clock skew</li>
+<li>What is DRC and LVS?</li>
 
 </ul>
-
-</div>
 
 </div>
 
 <footer>
-© 2026 VLSI Learning Portal
-</footer>
 
+© 2026 VLSI Learning Portal
+
+</footer>
 
 <script>
 
-const topics=[
+function toggleTheme(){
+document.body.classList.toggle("light")
+}
 
-"CMOS Technology","MOSFET Operation","Logic Gates","Combinational Circuits","Sequential Circuits",
-"Flip Flops","Registers","Counters","Adders","Multiplexers",
-"Decoders","Encoders","PLA","PAL","ROM",
-"ASIC Design","FPGA Design","VLSI Fabrication","Photolithography","Oxidation",
-"Doping","Etching","CMOS Inverter","Transmission Gates","Dynamic Logic",
-"Static Logic","Low Power VLSI","Clock Gating","Power Gating","Pipeline Design",
-"Timing Analysis","Setup Time","Hold Time","Noise Margin","Latch Design",
-"SRAM","DRAM","Memory Hierarchy","EDA Tools","Cadence Virtuoso",
-"Synopsys Design Compiler","Verilog HDL","VHDL","SystemVerilog",
-"Place and Route","Floorplanning","Routing","Physical Design",
-"Design Rule Check","Layout Versus Schematic","Chip Packaging","Testing",
-"Fault Simulation","ATPG","Scan Chains","Yield Analysis","SoC Design"
+function check(ans){
 
-];
+let r=document.getElementById("result")
 
-const grid=document.getElementById("topicsGrid");
-
-topics.forEach(t=>{
-let div=document.createElement("div");
-div.className="card";
-div.innerHTML="<h3>"+t+"</h3>";
-grid.appendChild(div);
-});
-
-function searchTopics(){
-
-let input=document.getElementById("searchInput").value.toLowerCase();
-let cards=document.querySelectorAll(".card");
-
-cards.forEach(card=>{
-card.style.display=card.innerText.toLowerCase().includes(input)?"block":"none";
-});
+if(ans)
+r.innerText="Correct Answer"
+else
+r.innerText="Wrong Answer"
 
 }
 
-function checkAnswer(ans){
+const canvas=document.getElementById("cmos")
+const ctx=canvas.getContext("2d")
 
-let result=document.getElementById("quizResult");
+ctx.fillStyle="black"
+ctx.fillRect(180,20,40,80)
 
-if(ans=="a"){
-result.innerText="Correct!";
-}else{
-result.innerText="Incorrect";
-}
+ctx.fillRect(180,150,40,80)
 
-}
+ctx.beginPath()
+ctx.moveTo(200,100)
+ctx.lineTo(200,150)
+ctx.stroke()
 
-const canvas=document.getElementById("cmosCanvas");
-const ctx=canvas.getContext("2d");
-
-ctx.fillStyle="black";
-ctx.fillRect(180,20,40,80);
-
-ctx.fillStyle="black";
-ctx.fillRect(180,150,40,80);
-
-ctx.beginPath();
-ctx.moveTo(200,100);
-ctx.lineTo(200,150);
-ctx.stroke();
-
-ctx.fillText("PMOS",160,15);
-ctx.fillText("NMOS",160,245);
+ctx.fillText("PMOS",160,15)
+ctx.fillText("NMOS",160,245)
 
 </script>
 
