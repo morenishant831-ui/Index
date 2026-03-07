@@ -3,177 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gold & Silver Live Market Dashboard</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<title>VLSI Learning Portal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:white;min-height:100vh;}
-header{text-align:center;padding:25px;font-size:28px;font-weight:600;}
-.container{width:95%;max-width:1200px;margin:auto;}
-.cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
-.card{flex:1;min-width:280px;padding:25px;border-radius:18px;background:rgba(255,255,255,0.07);
-backdrop-filter:blur(15px);box-shadow:0 10px 25px rgba(0,0,0,0.4);transition:0.3s;}
-.card:hover{transform:translateY(-6px);}
-.price{font-size:32px;font-weight:700;}
-.change{font-size:14px;margin-top:8px;}
-.up{color:#00ff9d;}
-.down{color:#ff4d4d;}
-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,0.05);
-border-radius:12px;overflow:hidden;margin-bottom:30px;}
-th{background:#f39c12;color:black;padding:12px;}
-td{padding:12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);}
-.calculator{background:rgba(255,255,255,0.07);padding:25px;border-radius:18px;margin-bottom:30px;}
-input,select,button{padding:10px;margin:8px 0;border:none;border-radius:8px;width:100%;}
-button{background:#f39c12;font-weight:600;cursor:pointer;}
-button:hover{background:#ffb84d;}
-#chart{height:400px;margin-bottom:30px;}
-.footer{text-align:center;padding:20px;font-size:14px;opacity:0.8;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 10%;
+background:rgba(0,0,0,0.3);
+}
+
+nav h1{
+font-size:22px;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:20px;
+}
+
+nav ul li{
+cursor:pointer;
+font-weight:500;
+}
+
+nav ul li:hover{
+color:#ffd166;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:60px 20px;
+}
+
+.hero h2{
+font-size:40px;
+margin-bottom:15px;
+}
+
+.hero p{
+opacity:0.9;
+}
+
+/* TOPIC GRID */
+
+.container{
+padding:40px 10%;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:rgba(255,255,255,0.08);
+padding:25px;
+border-radius:15px;
+cursor:pointer;
+transition:0.3s;
+backdrop-filter:blur(10px);
+}
+
+.card:hover{
+transform:translateY(-5px);
+background:rgba(255,255,255,0.15);
+}
+
+.card h3{
+margin-bottom:10px;
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+.modal-content{
+background:white;
+color:black;
+padding:30px;
+width:80%;
+max-width:600px;
+border-radius:10px;
+}
+
+.close{
+float:right;
+cursor:pointer;
+font-size:20px;
+font-weight:bold;
+}
+
+footer{
+text-align:center;
+padding:20px;
+margin-top:40px;
+opacity:0.8;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>💰 Gold & Silver Live Market Dashboard</header>
+<nav>
+<h1>⚡ VLSI Learning Hub</h1>
+<ul>
+<li>Home</li>
+<li>Topics</li>
+<li>Resources</li>
+<li>About</li>
+</ul>
+</nav>
+
+<div class="hero">
+<h2>VLSI Design Topics</h2>
+<p>Learn the fundamental and advanced concepts of Very Large Scale Integration</p>
+</div>
 
 <div class="container">
 
-<div class="cards">
-<div class="card">
-<h2>Gold (24K)</h2>
-<div class="price" id="goldPrice">Loading...</div>
-<div class="change" id="goldChange"></div>
+<div class="grid">
+
+<div class="card" onclick="openTopic('CMOS Technology','CMOS is the fundamental technology used in VLSI circuits for designing low power digital circuits.')">
+<h3>CMOS Technology</h3>
+<p>Basic transistor technology used in modern ICs</p>
 </div>
 
-<div class="card">
-<h2>Silver (999)</h2>
-<div class="price" id="silverPrice">Loading...</div>
-<div class="change" id="silverChange"></div>
-</div>
+<div class="card" onclick="openTopic('Logic Gates','Logic gates form the building blocks of digital circuits including AND, OR, NOT, NAND, NOR.')">
+<h3>Logic Gates</h3>
+<p>Fundamental digital logic building blocks</p>
 </div>
 
-<div id="chart"></div>
+<div class="card" onclick="openTopic('Combinational Circuits','Circuits where output depends only on present inputs.')">
+<h3>Combinational Circuits</h3>
+<p>Adders, Multiplexers, Decoders</p>
+</div>
 
-<table id="ratesTable"></table>
+<div class="card" onclick="openTopic('Sequential Circuits','Circuits where output depends on present input and previous state.')">
+<h3>Sequential Circuits</h3>
+<p>Flip-flops, Registers, Counters</p>
+</div>
 
-<div class="calculator">
-<h3>💡 Price Calculator</h3>
-<select id="metalSelect">
-<option value="gold">Gold 24K</option>
-<option value="silver">Silver 999</option>
-</select>
-<input type="number" id="grams" placeholder="Enter grams">
-<button onclick="calculate()">Calculate Price</button>
-<h3 id="result"></h3>
+<div class="card" onclick="openTopic('VLSI Fabrication','Process of manufacturing ICs using photolithography and semiconductor processes.')">
+<h3>VLSI Fabrication</h3>
+<p>Manufacturing of integrated circuits</p>
+</div>
+
+<div class="card" onclick="openTopic('Low Power VLSI','Techniques to reduce power consumption in IC design.')">
+<h3>Low Power VLSI</h3>
+<p>Power optimization techniques</p>
+</div>
+
+<div class="card" onclick="openTopic('ASIC Design','Application Specific Integrated Circuits designed for specific tasks.')">
+<h3>ASIC Design</h3>
+<p>Custom chip design</p>
+</div>
+
+<div class="card" onclick="openTopic('FPGA','Field Programmable Gate Arrays allow reconfigurable hardware design.')">
+<h3>FPGA</h3>
+<p>Programmable digital hardware</p>
 </div>
 
 </div>
 
-<div class="footer">
-Last Updated: <span id="updateTime"></span>
 </div>
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<span class="close" onclick="closeTopic()">✖</span>
+
+<h2 id="topicTitle"></h2>
+
+<p id="topicContent"></p>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 VLSI Learning Portal
+</footer>
 
 <script>
 
-// 🔑 Replace with your real API key
-const API_KEY = "YOUR_API_KEY";
+function openTopic(title,content){
 
-let previousGold = 0;
-let previousSilver = 0;
+document.getElementById("topicTitle").innerText=title;
+document.getElementById("topicContent").innerText=content;
 
-const chart = LightweightCharts.createChart(document.getElementById('chart'), {
-layout:{background:{color:'#0f2027'},textColor:'#ffffff'},
-grid:{vertLines:{color:'#1f3a4a'},horzLines:{color:'#1f3a4a'}},
-width:window.innerWidth*0.9,
-height:400
-});
+document.getElementById("modal").style.display="flex";
 
-const goldSeries = chart.addLineSeries({color:'#f39c12'});
-const silverSeries = chart.addLineSeries({color:'#00c3ff'});
-
-let goldHistory = [];
-let silverHistory = [];
-
-async function fetchLivePrices(){
-try{
-const res = await fetch(`https://metals-api.com/api/latest?access_key=${API_KEY}&base=INR&symbols=XAU,XAG`);
-const data = await res.json();
-
-if(!data.success) throw "API limit";
-
-const gold = (1 / data.rates.XAU) * 10;   // convert per 10g
-const silver = (1 / data.rates.XAG) * 10;
-
-updateDashboard(gold, silver);
-
-}catch(err){
-console.log("Using fallback simulation");
-updateDashboard(6500 + Math.random()*20, 75 + Math.random());
-}
 }
 
-function updateDashboard(gold, silver){
+function closeTopic(){
 
-document.getElementById("goldPrice").innerText = "₹ " + gold.toFixed(2);
-document.getElementById("silverPrice").innerText = "₹ " + silver.toFixed(2);
+document.getElementById("modal").style.display="none";
 
-updateChange("gold", gold, previousGold);
-updateChange("silver", silver, previousSilver);
-
-previousGold = gold;
-previousSilver = silver;
-
-updateTable(gold, silver);
-
-const time = Math.floor(Date.now()/1000);
-
-goldHistory.push({time, value:gold});
-silverHistory.push({time, value:silver});
-
-goldSeries.setData(goldHistory);
-silverSeries.setData(silverHistory);
-
-document.getElementById("updateTime").innerText = new Date().toLocaleString();
 }
-
-function updateChange(type, current, previous){
-let element = document.getElementById(type+"Change");
-let diff = (current - previous).toFixed(2);
-if(diff > 0){
-element.innerHTML = "▲ +" + diff;
-element.className = "change up";
-}else if(diff < 0){
-element.innerHTML = "▼ " + diff;
-element.className = "change down";
-}else{
-element.innerHTML = "No Change";
-element.className = "change";
-}
-}
-
-function updateTable(gold, silver){
-document.getElementById("ratesTable").innerHTML = `
-<tr><th>Metal</th><th>Variety</th><th>Rate (₹/10g)</th></tr>
-<tr><td>Gold</td><td>22 Carat</td><td>₹ ${(gold*0.92).toFixed(2)}</td></tr>
-<tr><td>Gold</td><td>24 Carat</td><td>₹ ${gold.toFixed(2)}</td></tr>
-<tr><td>Gold</td><td>999</td><td>₹ ${(gold*1.01).toFixed(2)}</td></tr>
-<tr><td>Silver</td><td>999</td><td>₹ ${silver.toFixed(2)}</td></tr>
-`;
-}
-
-function calculate(){
-let metal = document.getElementById("metalSelect").value;
-let grams = document.getElementById("grams").value;
-if(!grams) return alert("Enter grams");
-let rate = (metal==="gold") ? previousGold : previousSilver;
-let price = (rate/10)*grams;
-document.getElementById("result").innerText = "Total Price: ₹ "+price.toFixed(2);
-}
-
-fetchLivePrices();
-setInterval(fetchLivePrices,60000);
 
 </script>
 
