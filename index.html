@@ -2,13 +2,12 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VLSI Learning Platform</title>
+<title>Advanced VLSI Learning Platform</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -20,7 +19,7 @@
 }
 
 .light{
---bg:#f4f4f4;
+--bg:#f5f5f5;
 --card:white;
 --text:#222;
 --accent:#0077ff;
@@ -46,11 +45,13 @@ nav ul{
 display:flex;
 gap:20px;
 list-style:none;
+padding:0;
 }
 
 nav a{
 color:var(--text);
 text-decoration:none;
+font-weight:500;
 }
 
 button{
@@ -64,11 +65,12 @@ cursor:pointer;
 
 .hero{
 text-align:center;
-padding:80px 20px;
+padding:70px 20px;
 }
 
 .hero h2{
-font-size:40px;
+font-size:42px;
+margin-bottom:10px;
 }
 
 .search{
@@ -77,17 +79,21 @@ margin-bottom:20px;
 }
 
 .search input{
-padding:10px;
+padding:12px;
 width:50%;
 border-radius:8px;
 border:none;
+font-size:15px;
+}
+
+.section{
+padding:40px 10%;
 }
 
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 gap:20px;
-padding:40px 10%;
 }
 
 .card{
@@ -99,10 +105,11 @@ cursor:pointer;
 }
 
 .card:hover{
-transform:translateY(-5px);
+transform:translateY(-6px);
 }
 
-.section{
+.topicPage{
+display:none;
 padding:40px 10%;
 }
 
@@ -114,10 +121,8 @@ border-radius:8px;
 overflow:auto;
 }
 
-footer{
-text-align:center;
-padding:20px;
-opacity:0.8;
+.quiz button{
+margin:5px;
 }
 
 canvas{
@@ -125,15 +130,15 @@ background:white;
 border-radius:10px;
 }
 
-/* topic page */
-
-.topicPage{
-display:none;
-padding:40px 10%;
+footer{
+text-align:center;
+padding:20px;
+opacity:0.7;
 }
 
-.backBtn{
-margin-bottom:20px;
+select{
+padding:10px;
+border-radius:6px;
 }
 
 </style>
@@ -161,7 +166,6 @@ margin-bottom:20px;
 <div class="hero">
 
 <h2>Complete VLSI Learning Platform</h2>
-
 <p>Topics • Quiz • Verilog • Interview Preparation</p>
 
 </div>
@@ -176,39 +180,49 @@ margin-bottom:20px;
 
 <div class="grid" id="topicGrid">
 
-<div class="card" onclick="openTopic('CMOS Technology','CMOS technology uses complementary PMOS and NMOS transistors for low power digital circuits.')">CMOS Technology</div>
+<div class="card" onclick="openTopic('CMOS Technology','CMOS uses complementary PMOS and NMOS transistors to achieve low power digital circuits.')">CMOS Technology</div>
 
-<div class="card" onclick="openTopic('MOSFET Operation','MOSFET is the fundamental transistor used in modern integrated circuits.')">MOSFET Operation</div>
+<div class="card" onclick="openTopic('MOSFET','MOSFET is the basic transistor used in IC fabrication.')">MOSFET</div>
 
-<div class="card" onclick="openTopic('Logic Gates','Logic gates such as AND, OR, NOT are the building blocks of digital circuits.')">Logic Gates</div>
+<div class="card" onclick="openTopic('Logic Gates','AND OR NOT NAND NOR gates form digital logic.')">Logic Gates</div>
 
-<div class="card" onclick="openTopic('Combinational Circuits','Output depends only on present inputs.')">Combinational Circuits</div>
+<div class="card" onclick="openTopic('Combinational Logic','Output depends only on present inputs.')">Combinational Logic</div>
 
-<div class="card" onclick="openTopic('Sequential Circuits','Output depends on input and previous state.')">Sequential Circuits</div>
+<div class="card" onclick="openTopic('Sequential Circuits','Output depends on previous state and input.')">Sequential Circuits</div>
 
-<div class="card" onclick="openTopic('Flip Flops','Basic memory element used in digital electronics.')">Flip Flops</div>
+<div class="card" onclick="openTopic('Flip Flops','SR, JK, D, T flip flops store one bit.')">Flip Flops</div>
 
-<div class="card" onclick="openTopic('ASIC Design','Application specific integrated circuits are custom designed chips.')">ASIC Design</div>
+<div class="card" onclick="openTopic('ASIC','Application Specific Integrated Circuits are custom chips.')">ASIC</div>
 
-<div class="card" onclick="openTopic('FPGA Design','FPGAs are programmable hardware devices.')">FPGA Design</div>
+<div class="card" onclick="openTopic('FPGA','Field Programmable Gate Arrays are reconfigurable chips.')">FPGA</div>
 
-<div class="card" onclick="openTopic('Low Power VLSI','Techniques like clock gating reduce power consumption.')">Low Power VLSI</div>
+<div class="card" onclick="openTopic('Low Power VLSI','Clock gating, power gating reduce power consumption.')">Low Power VLSI</div>
 
-<div class="card" onclick="openTopic('Timing Analysis','Ensures signals meet setup and hold timing requirements.')">Timing Analysis</div>
+<div class="card" onclick="openTopic('Timing Analysis','Setup time, hold time and clock skew analysis.')">Timing Analysis</div>
 
 <div class="card" onclick="openTopic('DRC','Design Rule Check verifies layout rules.')">DRC</div>
 
-<div class="card" onclick="openTopic('LVS','Layout vs Schematic verifies circuit correctness.')">LVS</div>
+<div class="card" onclick="openTopic('LVS','Layout vs Schematic verification.')">LVS</div>
+
+<div class="card" onclick="openTopic('Clock Tree','Clock distribution network for synchronous circuits.')">Clock Tree</div>
+
+<div class="card" onclick="openTopic('Routing','Connecting nets in IC layout.')">Routing</div>
+
+<div class="card" onclick="openTopic('Synthesis','Convert RTL to gate level netlist.')">Synthesis</div>
+
+<div class="card" onclick="openTopic('Place and Route','Physical placement and routing of cells.')">Place & Route</div>
+
+<div class="card" onclick="openTopic('EDA Tools','Tools like Cadence, Synopsys used for chip design.')">EDA Tools</div>
+
+<div class="card" onclick="openTopic('Static Timing Analysis','Timing verification without simulation.')">STA</div>
 
 </div>
 
 </div>
-
-<!-- topic viewer -->
 
 <div class="topicPage" id="topicPage">
 
-<button class="backBtn" onclick="closeTopic()">⬅ Back</button>
+<button onclick="closeTopic()">⬅ Back</button>
 
 <h2 id="topicTitle"></h2>
 
@@ -220,62 +234,58 @@ margin-bottom:20px;
 
 <h2>Interactive CMOS Inverter</h2>
 
-<canvas id="cmos" width="400" height="250"></canvas>
+<canvas id="cmos" width="420" height="260"></canvas>
+
+<br><br>
+
+<button onclick="toggleInput()">Toggle Input</button>
+
+<p>Input: <span id="inputState">0</span></p>
+<p>Output: <span id="outputState">1</span></p>
 
 </div>
 
-<div class="section" id="quiz">
+<div class="section quiz" id="quiz">
 
 <h2>Quick Quiz</h2>
 
-<p id="q">What does CMOS stand for?</p>
+<p id="question"></p>
 
-<button onclick="check(1)">Complementary Metal Oxide Semiconductor</button>
-<button onclick="check(0)">Central Micro Operating System</button>
+<div id="answers"></div>
 
-<p id="result"></p>
+<p id="score"></p>
 
 </div>
 
 <div class="section" id="verilog">
 
-<h2>Verilog Example</h2>
+<h2>Verilog Code Examples</h2>
 
-<div class="code">
+<select onchange="showCode(this.value)">
 
-module and_gate(
-input a,
-input b,
-output y
-);
+<option value="and">AND Gate</option>
+<option value="mux">MUX</option>
+<option value="dff">D Flip Flop</option>
 
-assign y = a & b;
+</select>
 
-endmodule
-
-</div>
+<div class="code" id="codeBox"></div>
 
 </div>
 
 <div class="section" id="interview">
 
-<h2>VLSI Interview Preparation</h2>
+<h2>Interview Questions</h2>
 
-<ul>
+<button onclick="newQuestion()">Generate Question</button>
 
-<li>Explain CMOS inverter working</li>
-<li>Difference between latch and flip-flop</li>
-<li>What is setup time and hold time?</li>
-<li>Explain clock skew</li>
-<li>What is DRC and LVS?</li>
-
-</ul>
+<p id="iq"></p>
 
 </div>
 
 <footer>
 
-© 2026 VLSI Learning Portal
+© 2026 VLSI Learning Platform
 
 </footer>
 
@@ -285,33 +295,20 @@ function toggleTheme(){
 document.body.classList.toggle("light")
 }
 
-function check(ans){
-
-let r=document.getElementById("result")
-
-if(ans)
-r.innerText="Correct Answer"
-else
-r.innerText="Wrong Answer"
-
-}
-
 function openTopic(title,text){
 
 document.getElementById("topics").style.display="none"
 document.getElementById("topicPage").style.display="block"
 
-document.getElementById("topicTitle").innerText=title
-document.getElementById("topicText").innerText=text
-
-window.scrollTo(0,0)
+topicTitle.innerText=title
+topicText.innerText=text
 
 }
 
 function closeTopic(){
 
-document.getElementById("topics").style.display="block"
-document.getElementById("topicPage").style.display="none"
+topics.style.display="block"
+topicPage.style.display="none"
 
 }
 
@@ -326,21 +323,153 @@ card.style.display=card.innerText.toLowerCase().includes(input)?"block":"none"
 
 }
 
+let input=0
+
+function toggleInput(){
+
+input=input?0:1
+
+document.getElementById("inputState").innerText=input
+document.getElementById("outputState").innerText=input?0:1
+
+}
+
+const questions=[
+
+{
+q:"What does CMOS stand for?",
+a:["Complementary Metal Oxide Semiconductor","Central Memory Operating System"],
+c:0
+},
+
+{
+q:"Which transistor is used in CMOS?",
+a:["NMOS and PMOS","BJT"],
+c:0
+},
+
+{
+q:"Which device is programmable?",
+a:["FPGA","ASIC"],
+c:0
+}
+
+]
+
+let qi=0
+let score=0
+
+function loadQ(){
+
+let q=questions[qi]
+
+question.innerText=q.q
+
+answers.innerHTML=""
+
+q.a.forEach((ans,i)=>{
+
+let b=document.createElement("button")
+
+b.innerText=ans
+
+b.onclick=()=>{
+
+if(i===q.c) score++
+
+qi++
+
+if(qi<questions.length)
+loadQ()
+else
+scoreBox()
+
+}
+
+answers.appendChild(b)
+
+})
+
+}
+
+function scoreBox(){
+
+question.innerText="Quiz Completed"
+
+answers.innerHTML=""
+
+score.innerText="Score: "+score+"/"+questions.length
+
+}
+
+loadQ()
+
+function showCode(type){
+
+let code=""
+
+if(type=="and")
+code=`module and_gate(input a,input b,output y);
+assign y=a&b;
+endmodule`
+
+if(type=="mux")
+code=`module mux(input a,input b,input sel,output y);
+assign y=sel?b:a;
+endmodule`
+
+if(type=="dff")
+code=`module dff(input clk,input d,output reg q);
+always @(posedge clk)
+q<=d;
+endmodule`
+
+codeBox.innerText=code
+
+}
+
+showCode("and")
+
+const iqList=[
+
+"Explain CMOS inverter working.",
+"What is setup and hold time?",
+"What is clock skew?",
+"Difference between latch and flip flop?",
+"What is DRC and LVS?",
+"What is STA?"
+
+]
+
+function newQuestion(){
+
+let r=Math.floor(Math.random()*iqList.length)
+
+iq.innerText=iqList[r]
+
+}
+
 const canvas=document.getElementById("cmos")
+
 const ctx=canvas.getContext("2d")
 
 ctx.fillStyle="black"
-ctx.fillRect(180,20,40,80)
 
-ctx.fillRect(180,150,40,80)
+ctx.fillRect(190,30,40,90)
+
+ctx.fillRect(190,150,40,90)
 
 ctx.beginPath()
-ctx.moveTo(200,100)
-ctx.lineTo(200,150)
+
+ctx.moveTo(210,120)
+
+ctx.lineTo(210,150)
+
 ctx.stroke()
 
-ctx.fillText("PMOS",160,15)
-ctx.fillText("NMOS",160,245)
+ctx.fillText("PMOS",170,20)
+
+ctx.fillText("NMOS",170,250)
 
 </script>
 
